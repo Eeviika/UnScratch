@@ -178,7 +178,7 @@ export async function exportAll(
 	);
 	fs.writeFileSync(
 		path.join(dataDir, "global_variables.json"),
-		JSON.stringify(globalVariablesJSON)
+		JSON.stringify(globalVariablesJSON, null, 2)
 	);
 
 	logger.log("Done!");
