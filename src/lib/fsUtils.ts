@@ -32,8 +32,7 @@ export function makeDirs(filePaths: string[]) {
 	});
 }
 
-export function readScratchProject(path: string): ScratchProject {
-  const raw = fs.readFileSync(path, "utf-8");
-  const JSONData = JSON.parse(raw)
+export function readScratchProject(data: Buffer): ScratchProject {
+  const JSONData = JSON.parse(data.toString("utf-8"))
   return ScratchProjectSchema.parse(JSONData)
 }
