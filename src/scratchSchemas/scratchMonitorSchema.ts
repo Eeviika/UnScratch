@@ -4,7 +4,7 @@ export const ScratchMonitorSchema = z.object({
 	id: z.string(),
 	mode: z.string(),
 	opcode: z.string(),
-	params: z.record(z.string(), z.record(z.string(), z.string())),
+	params: z.record(z.string(), z.string()),
 	spriteName: z.string().nullable().optional(),
 	value: z.union([z.string(), z.number(), z.array(z.union([z.string(), z.number()]))]),
 	width: z.number(),
