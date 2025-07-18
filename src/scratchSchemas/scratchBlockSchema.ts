@@ -6,8 +6,8 @@ export const ScratchBlockSchema = z.object({
 	topLevel: z.boolean(),
 	x: z.number().optional(),
 	y: z.number().optional(),
-	next: z.string().optional(),
-	parent: z.string().optional(),
+	next: z.string().nullable().optional(),
+	parent: z.string().nullable().optional(),
 });
 
 export type ScratchBlock = z.infer<typeof ScratchBlockSchema>;

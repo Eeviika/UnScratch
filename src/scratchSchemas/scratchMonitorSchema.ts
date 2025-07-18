@@ -5,16 +5,16 @@ export const ScratchMonitorSchema = z.object({
 	mode: z.string(),
 	opcode: z.string(),
 	params: z.record(z.string(), z.record(z.string(), z.string())),
-	spriteName: z.string().optional(),
-	value: z.number(),
+	spriteName: z.string().nullable().optional(),
+	value: z.union([z.string(), z.number(), z.array(z.union([z.string(), z.number()]))]),
 	width: z.number(),
 	height: z.number(),
 	x: z.number(),
 	y: z.number(),
 	visible: z.boolean(),
-	sliderMin: z.number(),
-	sliderMax: z.number(),
-	isDiscrete: z.boolean(),
+	sliderMin: z.number().optional(),
+	sliderMax: z.number().optional(),
+	isDiscrete: z.boolean().optional(),
 });
 
 export type ScratchMonitor = z.infer<typeof ScratchMonitorSchema>;
