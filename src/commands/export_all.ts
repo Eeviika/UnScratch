@@ -6,7 +6,6 @@ import readline from "readline";
 import { createTargetDir, validateProjectPath } from "../lib/cliValidator";
 import { Logger } from "../classes/logger";
 import { makeDirs, readScratchProject } from "../lib/fsUtils";
-import { UnscratchVariable } from "../classes/unscratchAPI/UnscratchVariable";
 
 // const DUMMY_AGENT_STRING =
 // 	"Mozilla/5.0 (X11; Linux x86_64; rv:99.0) Gecko/20100101 Firefox/99.0";
@@ -144,6 +143,10 @@ export async function exportAll(
 	);
 	const projectJsonData = readScratchProject(projectBufferData);
 
+	logger.verbose("Removing agent from metadata...")
+
+	projectJsonData.meta.agent = ""
+
 	logger.verbose("Looking for Stage (globals) sprite...");
 
 	const stage = projectJsonData.targets.find(
@@ -159,18 +162,16 @@ export async function exportAll(
 		"Found globals! Exporting global vars / lists / broadcasts..."
 	);
 
-	const globalVariables: Map<string, UnscratchVariable> = new Map();
+	const globalVariables: Record<string, Record<string, string | number | boolean>> = {}
 
 	Object.entries(stage.variables).forEach((v) => {
-		globalVariables.set(
-			v[0],
-			new UnscratchVariable(v[1][0].toString(), v[1][1])
-		);
+		globalVariables[v[0]] = {
+			name: v[1][0],
+			value: v[1][1]
+		}
 	});
 
-	const globalVariablesJSON = JSON.stringify(
-		Object.fromEntries(globalVariables)
-	);
+	const globalVariablesJSON = JSON.stringify(globalVariables, null, 2);
 
 	fs.writeFileSync(
 		path.join(targetDir, "project.json"),
@@ -178,7 +179,7 @@ export async function exportAll(
 	);
 	fs.writeFileSync(
 		path.join(dataDir, "global_variables.json"),
-		JSON.stringify(globalVariablesJSON, null, 2)
+		globalVariablesJSON
 	);
 
 	logger.log("Done!");
