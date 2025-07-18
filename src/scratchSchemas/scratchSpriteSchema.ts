@@ -6,6 +6,7 @@ import { ScratchVariableSchema } from "./scratchVariableSchema";
 import { ScratchListSchema } from "./scratchListSchema";
 import { ScratchBlockSchema } from "./scratchBlockSchema";
 import { ScratchCommentSchema } from "./scratchCommentSchema";
+import { ScratchReporterSchema } from "./scratchReporterSchema";
 
 export const ScratchSpriteSchema = z.object({
 	isStage: z.boolean(),
@@ -20,7 +21,7 @@ export const ScratchSpriteSchema = z.object({
 	variables: z.record(z.string(), ScratchVariableSchema),
 	lists: z.record(z.string(), ScratchListSchema),
 	broadcasts: z.record(z.string(), z.string()),
-	blocks: z.record(z.string(), ScratchBlockSchema),
+	blocks: z.record(z.string(), z.union([ScratchBlockSchema, ScratchReporterSchema])),
 	comments: z.record(z.string(), ScratchCommentSchema),
 	costumes: z.array(ScratchCostumeSchema),
 	sounds: z.array(ScratchSoundSchema),
