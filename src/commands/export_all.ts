@@ -6,6 +6,7 @@ import readline from "readline";
 import { createTargetDir, validateProjectPath } from "../lib/cliValidator";
 import { Logger } from "../classes/logger";
 import { makeDirs, readScratchProject } from "../lib/fsUtils";
+import { UnscratchVariable } from "../classes/unscratchAPI/UnscratchVariable";
 
 // const DUMMY_AGENT_STRING =
 // 	"Mozilla/5.0 (X11; Linux x86_64; rv:99.0) Gecko/20100101 Firefox/99.0";
@@ -43,7 +44,11 @@ export async function exportAll(
 
 	const parsedProjectFile = path.parse(projectPath);
 
-	const targetDir = createTargetDir(parsedProjectFile, outputDirectory, logger)
+	const targetDir = createTargetDir(
+		parsedProjectFile,
+		outputDirectory,
+		logger
+	);
 
 	await (async () => {
 		logger.log(
@@ -134,8 +139,10 @@ export async function exportAll(
 		throw new Error(`Did not find "project.json" within project!`);
 	}
 
-	logger.verbose("Converting project.json into a JSON object... may throw an error!");
-	const projectJsonData = readScratchProject(projectBufferData) 
+	logger.verbose(
+		"Converting project.json into a JSON object... may throw an error!"
+	);
+	const projectJsonData = readScratchProject(projectBufferData);
 
 	logger.verbose("Looking for Stage (globals) sprite...");
 
@@ -152,9 +159,26 @@ export async function exportAll(
 		"Found globals! Exporting global vars / lists / broadcasts..."
 	);
 
+	const globalVariables: Map<string, UnscratchVariable> = new Map();
+
+	Object.entries(stage.variables).forEach((v) => {
+		globalVariables.set(
+			v[0],
+			new UnscratchVariable(v[1][0].toString(), v[1][1])
+		);
+	});
+
+	const globalVariablesJSON = JSON.stringify(
+		Object.fromEntries(globalVariables)
+	);
+
 	fs.writeFileSync(
 		path.join(targetDir, "project.json"),
 		JSON.stringify(projectJsonData.meta, null, 2)
+	);
+	fs.writeFileSync(
+		path.join(dataDir, "global_variables.json"),
+		JSON.stringify(globalVariablesJSON)
 	);
 
 	logger.log("Done!");
