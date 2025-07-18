@@ -5,7 +5,7 @@ import { exit } from "process";
 import readline from "readline";
 import { createTargetDir, validateProjectPath } from "../lib/cliValidator";
 import { Logger } from "../classes/logger";
-import { makeDirs } from "../lib/fsUtils";
+import { makeDirs, readScratchProject } from "../lib/fsUtils";
 
 // const DUMMY_AGENT_STRING =
 // 	"Mozilla/5.0 (X11; Linux x86_64; rv:99.0) Gecko/20100101 Firefox/99.0";
@@ -130,15 +130,12 @@ export async function exportAll(
 
 	logger.log("Extracted images / sounds.");
 
-	// For right now, just going to export project.json directly
-	// TODO: Actually process project.json
-
 	if (projectBufferData == undefined) {
 		throw new Error(`Did not find "project.json" within project!`);
 	}
 
-	logger.verbose("Converting project.json into a JSON object...");
-	const projectJsonData = JSON.parse(projectBufferData.toString("utf-8"));
+	logger.verbose("Converting project.json into a JSON object... may throw an error!");
+	const projectJsonData = readScratchProject(projectBufferData) 
 
 	logger.verbose("Looking for Stage (globals) sprite...");
 
@@ -155,49 +152,6 @@ export async function exportAll(
 		"Found globals! Exporting global vars / lists / broadcasts..."
 	);
 
-	const globalVariables = Object.entries(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		stage.variables as Record<string, [string, any]>
-	).map(([id, [name, value]]) => ({
-		id,
-		name,
-		value,
-	}));
-
-	logger.verbose("Got vars...");
-
-	const globalLists = Object.entries(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		stage.lists as Record<string, [string, any[]]>
-	).map(([id, [name, values]]) => ({
-		id,
-		name,
-		values,
-	}));
-
-	logger.verbose("Got lists...");
-
-	const broadcasts = Object.entries(stage.broadcasts).map(([id, name]) => ({
-		id,
-		name,
-	}));
-
-	logger.verbose("Got broadcasts...");
-
-	logger.verbose("Exporting...");
-
-	fs.writeFileSync(
-		path.join(dataDir, "global_variables.json"),
-		JSON.stringify(globalVariables, null, 2)
-	);
-	fs.writeFileSync(
-		path.join(dataDir, "global_lists.json"),
-		JSON.stringify(globalLists, null, 2)
-	);
-	fs.writeFileSync(
-		path.join(dataDir, "broadcasts.json"),
-		JSON.stringify(broadcasts, null, 2)
-	);
 	fs.writeFileSync(
 		path.join(targetDir, "project.json"),
 		JSON.stringify(projectJsonData.meta, null, 2)
