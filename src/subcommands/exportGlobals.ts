@@ -1,13 +1,18 @@
 import { Logger } from "../classes/logger";
 import { ScratchProject } from "../scratchSchemas/scratchProjectSchema";
-import fs from "fs"
-import path from "path"
+import fs from "fs";
+import path from "path";
 
 const DUMMY_AGENT_STRING =
 	"Mozilla/5.0 (X11; Linux x86_64; rv:99.0) Gecko/20100101 Firefox/99.0";
 
-export function exportGlobals(projectJsonData: ScratchProject, targetDir: string, dataDir:string, logger: Logger) {
-    logger.verbose("Replacing agent in metadata with dummy string...");
+export function exportGlobals(
+	projectJsonData: ScratchProject,
+	targetDir: string,
+	dataDir: string,
+	logger: Logger
+) {
+	logger.verbose("Replacing agent in metadata with dummy string...");
 
 	projectJsonData.meta.agent = DUMMY_AGENT_STRING;
 
@@ -22,7 +27,7 @@ export function exportGlobals(projectJsonData: ScratchProject, targetDir: string
 		throw new Error("Could not find the Stage!");
 	}
 
-	logger.verbose("Found globals! Exporting global vars...");
+	logger.verbose("Found globals! Finding global vars...");
 
 	const globalVariables: Record<
 		string,
@@ -38,7 +43,7 @@ export function exportGlobals(projectJsonData: ScratchProject, targetDir: string
 
 	const globalVariablesJSON = JSON.stringify(globalVariables, null, 2);
 	logger.verbose("Got global variables.");
-	logger.verbose("Exporting global lists...");
+	logger.verbose("Finding global lists...");
 
 	const globalLists: Record<
 		string,
@@ -58,27 +63,28 @@ export function exportGlobals(projectJsonData: ScratchProject, targetDir: string
 		};
 	});
 
-	const globalListsJSON = JSON.stringify(globalLists, null, 2)
-	logger.verbose("Got global lists.")
-	logger.verbose("Exporting broadcasts...")
+	const globalListsJSON = JSON.stringify(globalLists, null, 2);
+	logger.verbose("Got global lists.");
 
+	logger.verbose("Exporting project metadata...");
 	fs.writeFileSync(
 		path.join(targetDir, "project.json"),
 		JSON.stringify(projectJsonData.meta, null, 2)
 	);
-	
+
+	logger.verbose("Exporting global variables and lists...");
 	fs.writeFileSync(
 		path.join(dataDir, "global_variables.json"),
 		globalVariablesJSON
 	);
 
-	fs.writeFileSync(
-		path.join(dataDir, "global_lists.json"),
-		globalListsJSON
-	);
+	fs.writeFileSync(path.join(dataDir, "global_lists.json"), globalListsJSON);
 
+	logger.verbose("Exporting broadcasts...");
 	fs.writeFileSync(
 		path.join(dataDir, "broadcasts.json"),
 		JSON.stringify(stage.broadcasts, null, 2)
 	);
+
+	logger.log("Exported globals.");
 }
