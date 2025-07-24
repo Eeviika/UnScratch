@@ -2,8 +2,8 @@ import z from "zod";
 
 export const ScratchCommentSchema = z.object({
 	blockId: z.string().nullable().optional(),
-	x: z.number(),
-	y: z.number(),
+	x: z.number().nullable(),
+	y: z.number().nullable(),
 	width: z.number(),
 	height: z.number(),
 	minimized: z.boolean(),
