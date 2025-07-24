@@ -9,6 +9,13 @@ import { ScratchCommentSchema } from "./scratchCommentSchema";
 import { ScratchReporterSchema } from "./scratchReporterSchema";
 
 export const ScratchSpriteSchema = z.object({
+	x: z.number().optional(),
+	y: z.number().optional(),
+	size: z.number().optional(),
+	direction: z.number().optional(),
+	visible: z.boolean().optional(),
+	draggable: z.boolean().optional(),
+	rotationStyle: z.string().optional(),
 	isStage: z.boolean(),
 	name: z.string(),
 	currentCostume: z.number(),
