@@ -1,7 +1,7 @@
 import { Logger } from "../classes/logger";
 import fs from "fs"
 import path, { ParsedPath } from "path"
-import { isValidZip } from "./fsUtils";
+import { isValidZip } from "./utils/fsUtils";
 
 export function validateProjectPath(projectPath: string, logger: Logger) {
 	logger.verbose(`Checking to see if (${projectPath}) exists...`);

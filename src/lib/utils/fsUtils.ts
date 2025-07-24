@@ -1,6 +1,6 @@
 import AdmZip from "adm-zip";
 import fs from "fs";
-import { ScratchProject, ScratchProjectSchema } from "../scratchSchemas/scratchProjectSchema";
+import { ScratchProject, ScratchProjectSchema } from "../../scratchSchemas/scratchProjectSchema";
 
 export function isValidZip(filePath: string): boolean {
 	try {
