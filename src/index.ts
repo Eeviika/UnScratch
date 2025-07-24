@@ -17,12 +17,12 @@ yargs(hideBin(process.argv))
 		(yargs) => {
 			return yargs
 				.positional("projectPath", {
-					describe: "path to the project",
+					describe: "path to the project (absolute)",
 					type: "string",
 					demandOption: true,
 				})
 				.positional("outputDirectory", {
-					describe: "directory to output to",
+					describe: "directory to output to (relative or absolute)",
 					type: "string",
 					default: "./",
 				});
