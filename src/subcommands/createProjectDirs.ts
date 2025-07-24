@@ -5,7 +5,7 @@ import { makeDirs } from "../lib/utils/fsUtils";
 
 export function createProjectDirs(
 	targetDir: string,
-	logger: Logger
+	logger: Logger,
 ): Record<string, string> {
 	logger.verbose(`Attempting to create (${targetDir})...`);
 	fs.mkdirSync(targetDir, { recursive: true });

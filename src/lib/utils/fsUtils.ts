@@ -1,6 +1,9 @@
 import AdmZip from "adm-zip";
 import fs from "fs";
-import { ScratchProject, ScratchProjectSchema } from "../../scratchSchemas/scratchProjectSchema";
+import {
+	ScratchProject,
+	ScratchProjectSchema,
+} from "../../scratchSchemas/scratchProjectSchema";
 
 export function isValidZip(filePath: string): boolean {
 	try {
@@ -33,6 +36,6 @@ export function makeDirs(filePaths: string[]) {
 }
 
 export function readScratchProject(data: Buffer): ScratchProject {
-  const JSONData = JSON.parse(data.toString("utf-8"))
-  return ScratchProjectSchema.parse(JSONData)
+	const JSONData = JSON.parse(data.toString("utf-8"));
+	return ScratchProjectSchema.parse(JSONData);
 }

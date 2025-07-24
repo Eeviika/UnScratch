@@ -21,7 +21,10 @@ export const ScratchSpriteSchema = z.object({
 	variables: z.record(z.string(), ScratchVariableSchema),
 	lists: z.record(z.string(), ScratchListSchema),
 	broadcasts: z.record(z.string(), z.string()),
-	blocks: z.record(z.string(), z.union([ScratchBlockSchema, ScratchReporterSchema])),
+	blocks: z.record(
+		z.string(),
+		z.union([ScratchBlockSchema, ScratchReporterSchema]),
+	),
 	comments: z.record(z.string(), ScratchCommentSchema),
 	costumes: z.array(ScratchCostumeSchema),
 	sounds: z.array(ScratchSoundSchema),

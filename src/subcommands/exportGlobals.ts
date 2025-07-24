@@ -10,7 +10,7 @@ export function exportGlobals(
 	projectJsonData: ScratchProject,
 	targetDir: string,
 	dataDir: string,
-	logger: Logger
+	logger: Logger,
 ) {
 	logger.verbose("Replacing agent in metadata with dummy string...");
 
@@ -20,7 +20,7 @@ export function exportGlobals(
 
 	const stage = projectJsonData.targets.find(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(target: any) => target.isStage === true
+		(target: any) => target.isStage === true,
 	);
 
 	if (!stage) {
@@ -69,13 +69,13 @@ export function exportGlobals(
 	logger.verbose("Exporting project metadata...");
 	fs.writeFileSync(
 		path.join(targetDir, "project.json"),
-		JSON.stringify(projectJsonData.meta, null, 2)
+		JSON.stringify(projectJsonData.meta, null, 2),
 	);
 
 	logger.verbose("Exporting global variables and lists...");
 	fs.writeFileSync(
 		path.join(dataDir, "global_variables.json"),
-		globalVariablesJSON
+		globalVariablesJSON,
 	);
 
 	fs.writeFileSync(path.join(dataDir, "global_lists.json"), globalListsJSON);
@@ -83,7 +83,7 @@ export function exportGlobals(
 	logger.verbose("Exporting broadcasts...");
 	fs.writeFileSync(
 		path.join(dataDir, "broadcasts.json"),
-		JSON.stringify(stage.broadcasts, null, 2)
+		JSON.stringify(stage.broadcasts, null, 2),
 	);
 
 	logger.log("Exported globals.");

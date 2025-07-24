@@ -1,6 +1,6 @@
 import { Logger } from "../classes/logger";
-import fs from "fs"
-import path, { ParsedPath } from "path"
+import fs from "fs";
+import path, { ParsedPath } from "path";
 import { isValidZip } from "./utils/fsUtils";
 
 export function validateProjectPath(projectPath: string, logger: Logger) {
@@ -31,9 +31,13 @@ export function validateProjectPath(projectPath: string, logger: Logger) {
 	logger.log("Project path is valid.");
 }
 
-export function createTargetDir(parsedProjectFile: ParsedPath, outputDirectory: string, logger: Logger): string {
+export function createTargetDir(
+	parsedProjectFile: ParsedPath,
+	outputDirectory: string,
+	logger: Logger,
+): string {
 	logger.verbose(
-		`Checking if output directory (${outputDirectory}) is absolute`
+		`Checking if output directory (${outputDirectory}) is absolute`,
 	);
 	logger.verbose("If not, converting...");
 
@@ -42,30 +46,29 @@ export function createTargetDir(parsedProjectFile: ParsedPath, outputDirectory: 
 		: path.resolve(parsedProjectFile.dir, outputDirectory);
 
 	logger.verbose(
-		`Output directory (${outputDirectory}) may have changed.\nChecking for existence...`
+		`Output directory (${outputDirectory}) may have changed.\nChecking for existence...`,
 	);
 
 	if (!fs.existsSync(outputDirectory)) {
 		const newOutput = parsedProjectFile.dir;
 		logger.warn(
-			`Cannot output a project folder to ${outputDirectory} as it does not exist. Outputting to ${newOutput} instead.`
+			`Cannot output a project folder to ${outputDirectory} as it does not exist. Outputting to ${newOutput} instead.`,
 		);
 		outputDirectory = newOutput;
 	}
 
-
 	const targetDir = path.join(outputDirectory, parsedProjectFile.name);
-		
+
 	logger.verbose(
-		`Preparing to output to (${targetDir}), checking if it exists first...`
+		`Preparing to output to (${targetDir}), checking if it exists first...`,
 	);
 
 	if (fs.existsSync(targetDir)) {
 		logger.err(
-			`Need to extract to "${targetDir}", but it already exists.\nPlease rename or remove it first.`
+			`Need to extract to "${targetDir}", but it already exists.\nPlease rename or remove it first.`,
 		);
 		process.exit(1);
 	}
 
-	return targetDir
+	return targetDir;
 }

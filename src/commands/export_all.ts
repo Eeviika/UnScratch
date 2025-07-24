@@ -13,7 +13,7 @@ import { askYesNo } from "../lib/input";
 export async function exportAll(
 	projectPath: string,
 	outputDirectory: string,
-	verbose: boolean
+	verbose: boolean,
 ) {
 	const logger: Logger = new Logger("ExportAllMain", verbose, false);
 	logger.log("Beginning extraction of entire project...");
@@ -22,14 +22,13 @@ export async function exportAll(
 
 	const parsedProjectFile = path.parse(projectPath);
 
-	const targetDir = createTargetDir(
-		parsedProjectFile,
-		outputDirectory,
-		logger
-	);
+	const targetDir = createTargetDir(parsedProjectFile, outputDirectory, logger);
 
 	await (async () => {
-		const ok = await askYesNo(`Extracting "${projectPath}" to directory "${targetDir}". Is this okay? ([Y]/N)\n> `, true);
+		const ok = await askYesNo(
+			`Extracting "${projectPath}" to directory "${targetDir}". Is this okay? ([Y]/N)\n> `,
+			true,
+		);
 		if (!ok) {
 			logger.log("Operation cancelled.");
 			exit(0);
@@ -37,8 +36,7 @@ export async function exportAll(
 		logger.log("Continuing with extraction...");
 	})();
 
-	const { imageDir, soundDir, dataDir } =
-		createProjectDirs(targetDir, logger);
+	const { imageDir, soundDir, dataDir } = createProjectDirs(targetDir, logger);
 
 	exportAssets(projectPath, imageDir, soundDir, logger);
 
@@ -52,11 +50,11 @@ export async function exportAll(
 	}
 
 	logger.verbose(
-		"Converting project.json into a JSON object... may throw an error!"
+		"Converting project.json into a JSON object... may throw an error!",
 	);
 	const projectJsonData = readScratchProject(projectBufferData);
 
-	exportGlobals(projectJsonData, targetDir, dataDir, logger)
+	exportGlobals(projectJsonData, targetDir, dataDir, logger);
 
 	logger.log("Done!");
 	logger.log(`Project extracted to "${targetDir}"`);

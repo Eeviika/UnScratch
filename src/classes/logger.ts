@@ -41,7 +41,7 @@ export class Logger {
 		if (this.outId) {
 			message = `[${this.id}] ` + message;
 		}
-        message = "[WARN] " + message;
+		message = "[WARN] " + message;
 
 		console.warn(message);
 	}
@@ -50,7 +50,7 @@ export class Logger {
 		if (this.outId) {
 			message = `[${this.id}] ` + message;
 		}
-        message = "[ERR] " + message;
+		message = "[ERR] " + message;
 
 		console.error(message);
 	}

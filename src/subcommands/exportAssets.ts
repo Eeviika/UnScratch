@@ -8,7 +8,7 @@ export function exportAssets(
 	projectPath: string,
 	imageDir: string,
 	soundDir: string,
-	logger: Logger
+	logger: Logger,
 ) {
 	// Unzip the current project.
 	const projectZip = new AdmZip(projectPath);
@@ -37,7 +37,7 @@ export function exportAssets(
 			const buffer = zipEntry.getData();
 			const imageOutPath = path.join(
 				imageDir,
-				path.basename(zipEntry.entryName)
+				path.basename(zipEntry.entryName),
 			);
 			fs.writeFileSync(imageOutPath, buffer);
 			logger.verbose("Done!");
@@ -50,7 +50,7 @@ export function exportAssets(
 			const buffer = zipEntry.getData();
 			const soundOutPath = path.join(
 				soundDir,
-				path.basename(zipEntry.entryName)
+				path.basename(zipEntry.entryName),
 			);
 			fs.writeFileSync(soundOutPath, buffer);
 			logger.verbose("Done!");
