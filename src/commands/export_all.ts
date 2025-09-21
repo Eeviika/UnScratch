@@ -7,7 +7,7 @@ import { readScratchProject } from "../lib/utils/fsUtils";
 import { exportGlobals } from "../subcommands/exportGlobals";
 import { createProjectDirs } from "../subcommands/createProjectDirs";
 import { exportAssets } from "../subcommands/exportAssets";
-import { getProjectBufferData } from "../lib/getProjectBufferData";
+import { getProjectBufferData } from "../subcommands/getProjectBufferData";
 import { askYesNo } from "../lib/input";
 
 export async function exportAll(
