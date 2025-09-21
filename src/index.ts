@@ -2,7 +2,7 @@
 
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { exportAll } from "./commands/export_all";
+import { exportAll } from "./commands/exportAll";
 
 interface ExportAllArgs {
 	projectPath: string;
