@@ -55,7 +55,7 @@ export function exportGlobals(
 
 	Object.entries(stage.lists).forEach((v) => {
 		if (!Array.isArray(v[1][1])) {
-			throw new Error("Lists must have an ARRAY in index 1.");
+			throw new Error("Lists must have an Array[Variant] in index 1.");
 		}
 		globalLists[v[0]] = {
 			name: v[1][0].toString(),
