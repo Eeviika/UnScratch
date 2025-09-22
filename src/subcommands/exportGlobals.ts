@@ -38,18 +38,18 @@ export function exportGlobals(
 
 	logger.verbose("Exporting global variables and lists...");
 	fs.writeFileSync(
-		path.join(dataDir, "global_variables.json"),
+		path.join(dataDir, "global..variables.json"),
 		JSONParseVariables(stage),
 	);
 
 	fs.writeFileSync(
-		path.join(dataDir, "global_lists.json"),
+		path.join(dataDir, "global..lists.json"),
 		JSONParseLists(stage),
 	);
 
 	logger.verbose("Exporting broadcasts...");
 	fs.writeFileSync(
-		path.join(dataDir, "broadcasts.json"),
+		path.join(dataDir, "global..broadcasts.json"),
 		JSON.stringify(stage.broadcasts, null, 2),
 	);
 
