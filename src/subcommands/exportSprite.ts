@@ -14,7 +14,7 @@ export function exportSprite(
 	logger.verbose(`Exporting sprite "${sprite.name}"...`);
 
 	if (sprite.isStage) {
-		logger.warn(
+		logger.verbose(
 			"Cannot export a Stage as a sprite (use exportGlobals instead). Skipping export.",
 		);
 		return;
@@ -50,20 +50,39 @@ export function exportSprite(
 	const spriteData = JSON.stringify(newSpriteData, null, 2);
 	fs.writeFileSync(spriteFilePath, spriteData);
 
-	const codeFilePath = path.join(codeDir, `${sprite.name}_code.json`);
-	logger.verbose(`Writing sprite code to ${codeFilePath}...`);
+	const codeFilePath = path.join(codeDir, `${sprite.name}..code.json`);
 	const spriteCodeData = JSON.stringify(sprite.blocks, null, 2);
-	fs.writeFileSync(spriteFilePath, spriteCodeData);
+
+	if (spriteCodeData === "{}") {
+		logger.verbose("Not exporting code for this sprite as it has none.")
+	} else {
+		logger.verbose(`Writing sprite code to ${codeFilePath}...`);
+		fs.writeFileSync(codeFilePath, spriteCodeData);
+	}
 
 	const spriteVariablesFilePath = path.join(
 		dataDir,
-		`${sprite.name}_variables.json`,
+		`${sprite.name}..variables.json`,
 	);
 	const spriteListsFilePath = path.join(
 		dataDir,
-		`${sprite.name}_lists.json`
+		`${sprite.name}..lists.json`
 	)
 
-	fs.writeFileSync(spriteVariablesFilePath, JSONParseVariables(sprite))
-	fs.writeFileSync(spriteListsFilePath, JSONParseLists(sprite))
+	const spriteVariables = JSONParseVariables(sprite)
+	const spriteLists = JSONParseLists(sprite)
+
+	if (spriteVariables === "{}") {
+		logger.verbose("Not exporting variables as none exist for this sprite.")
+	} else {
+		logger.verbose(`Exporting variables to ${spriteVariablesFilePath}...`)
+		fs.writeFileSync(spriteVariablesFilePath, spriteVariables)
+	}
+
+	if (spriteLists === "{}") {
+		logger.verbose("Not exporting lists as none exist for this sprite.")
+	} else {
+		logger.verbose(`Exporting lists to ${spriteListsFilePath}...`)
+		fs.writeFileSync(spriteListsFilePath, JSONParseLists(sprite))
+	}
 }
