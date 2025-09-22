@@ -1,6 +1,6 @@
 {
 	"name": "unscratch",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"description": "Extracts and processes data from Scratch projects (.sb3 files) using TypeScript.",
 	"main": "index.js",
 	"scripts": {
