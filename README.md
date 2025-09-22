@@ -20,8 +20,14 @@ easier to digest and read.
 
 ## Installation
 
-UnScratch, despite being a Node.js project, is not hosted on `npm` right now. 
-Please download the source code and use `npm link` on the root of the directory to "install" it globally.
+UnScratch, despite being a Node.js project, is not hosted on `npm` right now. To install:
+* Download & install Node.js [from here](https://nodejs.org/) if you don't have it already.
+* Download the source code.
+* Compile the TypeScript code using `npx tsc`.
+  * A new folder named `dist` should be created.
+* Run `npm link`.
+* Congrats, you can now use UnScratch by calling `unscratch` in your terminal!
+
 Pre-built binaries (and eventually, a release on `npm`) will come in the future.
 
 ## Usage
@@ -57,7 +63,7 @@ This project is open to contributions and actively encourages them as I am a sol
 of time on my hands. If you'd like to contribute, please feel free to do so. When contributing, please do
 the following:
 
-* Branch off of `dev` for new features. Branch off of `main` if something is wrong in `main`.
+* Try to branch off of `dev` for most things.
 * Name your branch something clear, like `feature/scratch_assets_rename`. If it's a bugfix, `fix/weird_bug`.
 * Format your code with Prettier using the config in the root directory before pushing. (I won't hunt you down for this, but it'd be nice.)
 * Please bug-check your code before making a PR.
