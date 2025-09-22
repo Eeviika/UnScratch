@@ -9,6 +9,7 @@ import { createProjectDirs } from "../subcommands/createProjectDirs";
 import { exportAssets } from "../subcommands/exportAssets";
 import { getProjectBufferData } from "../subcommands/getProjectBufferData";
 import { askYesNo } from "../lib/input";
+import { exportSprite } from "../subcommands/exportSprite";
 
 export async function exportAll(
 	projectPath: string,
@@ -36,25 +37,37 @@ export async function exportAll(
 		logger.log("Continuing with extraction...");
 	})();
 
-	const { imageDir, soundDir, dataDir } = createProjectDirs(targetDir, logger);
+	const { imageDir, soundDir, dataDir, spriteDir, codeDir } = createProjectDirs(targetDir, logger);
+
+	logger.log("Extracting image / sounds...")
 
 	exportAssets(projectPath, imageDir, soundDir, logger);
 
 	logger.log("Extracted images / sounds.");
 
-	logger.verbose("Reading project.json from project...");
+	logger.log("Reading project.json from project...");
 	const projectBufferData = getProjectBufferData(projectPath);
 
 	if (projectBufferData == undefined) {
 		throw new Error(`Did not find "project.json" within project!`);
 	}
 
-	logger.verbose(
-		"Converting project.json into a JSON object... may throw an error!",
+	logger.log(
+		"Converting project.json into a JSON object...",
 	);
 	const projectJsonData = readScratchProject(projectBufferData);
 
+	logger.log("Done converting. Exporting globals (stage)...")
+
 	exportGlobals(projectJsonData, targetDir, dataDir, logger);
+
+	logger.log("Done exporting stage. Exporting sprites...")
+
+	for (const targetKey in projectJsonData.targets) {
+		exportSprite(projectJsonData.targets[targetKey], dataDir, spriteDir, codeDir, logger)
+	}
+
+	logger.log("Exported sprites.")
 
 	logger.log("Done!");
 	logger.log(`Project extracted to "${targetDir}"`);
@@ -62,4 +75,7 @@ export async function exportAll(
 	logger.log("-\tproject.json");
 	logger.log(`-\t${fs.readdirSync(imageDir).length} images`);
 	logger.log(`-\t${fs.readdirSync(soundDir).length} sounds`);
+	logger.log(`-\t${fs.readdirSync(spriteDir).length} sprites`);
+	logger.log(`-\t${fs.readdirSync(codeDir).length} code blocks`);
+	logger.log(`-\t${fs.readdirSync(dataDir).length} data files`);
 }
