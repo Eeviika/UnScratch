@@ -56,8 +56,8 @@ This project is open to contributions and actively encourages them as I am a sol
 of time on my hands. If you'd like to contribute, please feel free to do so. When contributing, please do
 the following:
 
-* Branch off of `main`, not `dev`.
+* Branch off of `dev` for new features. Branch off of `main` if something is wrong in `main`.
 * Name your branch something clear, like `feature/scratch_assets_rename`. If it's a bugfix, `fix/weird_bug`.
 * Format your code with Prettier using the config in the root directory before pushing. (I won't hunt you down for this, but it'd be nice.)
 * Please bug-check your code before making a PR.
-* PR into `dev`, not `main`. Additionally, if your PR resolves an issue, please mention it.
+* PR back into the branch you branched off of. If your PR solves an issue, mention that as well.
