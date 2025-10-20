@@ -39,5 +39,5 @@ jobs:
             - name: Upload dist artifact
               uses: actions/upload-artifact@v4
               with:
-                  name: dist-${{ github.sha }}
+                  name: dist-${{ matrix.node-version }}-${{ github.sha }}
                   path: ./dist
