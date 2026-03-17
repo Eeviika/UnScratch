@@ -1,7 +1,7 @@
 # UnScratch
 [![language](https://img.shields.io/badge/language-TypeScript-blue)](https://www.typescriptlang.org/)
 
-**UnScratch development is currently being slowed and/or completely paused as I focus on other projects.**
+***!! Please see [Unscratch Rust](https://github.com/Eeviika/unscratch_rust) instead. !!***
 
 UnScratch is a tool that can be used to unpack and "export" sprites, assets, etc. from `.sb3` files, and convert them into readable `.json`, `.png` / `.svg`, or `.mp3` files.
 
